@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta name="theme-color" content="#075985">
+
+<title>SENTHILANDAVAR WATER WASH</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f1f5f9;
+  color:#172033;
+}
+
+header{
+  background:linear-gradient(135deg,#075985,#0284c7);
+  color:white;
+  padding:22px 15px;
+  text-align:center;
+}
+
+header h1{
+  margin:0;
+  font-size:21px;
+}
+
+header p{
+  margin:6px 0 0;
+  font-size:12px;
+  opacity:.9;
+}
+
+.container{
+  max-width:700px;
+  margin:auto;
+  padding:12px;
+}
+
+nav{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+  margin-bottom:12px;
+}
+
+nav button{
+  margin:0;
+}
+
+.card{
+  background:white;
+  padding:15px;
+  margin-bottom:12px;
+  border-radius:15px;
+  box-shadow:0 2px 12px rgba(0,0,0,.07);
+}
+
+h3{
+  margin:0 0 14px;
+}
+
+label{
+  display:block;
+  font-size:13px;
+  font-weight:bold;
+  margin:9px 0 5px;
+}
+
+input,select,button{
+  width:100%;
+  padding:12px;
+  border-radius:9px;
+  border:1px solid #cbd5e1;
+  font-size:15px;
+}
+
+button{
+  border:0;
+  background:#075985;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  margin-top:10px;
+}
+
+button:disabled{
+  opacity:.5;
+}
+
+.secondary{
+  background:#475569;
+}
+
+.vehicle{
+  display:grid;
+  grid-template-columns:1.4fr .65fr .8fr;
+  gap:7px;
+  align-items:center;
+  padding:10px 0;
+  border-bottom:1px solid #e5e7eb;
+}
+
+.vehicle:last-child{
+  border-bottom:0;
+}
+
+.vehicle small{
+  color:#64748b;
+}
+
+.vehicle input{
+  text-align:center;
+}
+
+.amount{
+  text-align:right;
+  font-weight:bold;
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+
+.summary{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+}
+
+.summary-box{
+  background:#eff6ff;
+  border-radius:10px;
+  padding:11px 5px;
+  text-align:center;
+  font-size:12px;
+}
+
+.summary-box b{
+  display:block;
+  font-size:19px;
+  margin-top:5px;
+}
+
+.green{
+  background:#ecfdf5;
+}
+
+.red{
+  background:#fef2f2;
+}
+
+.hidden{
+  display:none;
+}
+
+.status{
+  text-align:center;
+  font-size:13px;
+  margin-top:10px;
+  min-height:18px;
+}
+
+.history-card{
+  border-bottom:1px solid #e5e7eb;
+  padding:13px 0;
+}
+
+.history-card:last-child{
+  border-bottom:0;
+}
+
+.history-date{
+  font-weight:bold;
+  font-size:16px;
+}
+
+.history-detail{
+  line-height:1.7;
+  font-size:13px;
+  margin-top:7px;
+}
+
+.badge{
+  display:inline-block;
+  background:#e0f2fe;
+  padding:4px 7px;
+  border-radius:6px;
+  font-size:11px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13px;
+}
+
+th,td{
+  border-bottom:1px solid #e5e7eb;
+  padding:9px 5px;
+  text-align:left;
+}
+
+th{
+  background:#f8fafc;
+}
+
+.loader{
+  text-align:center;
+  padding:20px;
+}
+
+@media(max-width:480px){
+
+  .summary{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .grid2{
+    grid-template-columns:1fr 1fr;
+  }
+
+  header h1{
+    font-size:19px;
+  }
+
+  .vehicle{
+    grid-template-columns:1.25fr .65fr .8fr;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>💦 SENTHILANDAVAR WATER WASH</h1>
+<p>Daily Collection • Expense • Vehicle Report</p>
+</header>
+
+<div class="container">
+
+<nav>
+<button onclick="showPage('today')">TODAY</button>
+<button onclick="showPage('history')">HISTORY</button>
+<button onclick="showPage('report')">REPORT</button>
+</nav>
+
+
+<!-- TODAY PAGE -->
+
+<section id="today">
+
+<div class="card">
+
+<h3>📝 Today's Entry</h3>
+
+<label>Date</label>
+<input type="date" id="date">
+
+<label>Entry By</label>
+
+<select id="partner">
+<option value="Partner 1">Partner 1</option>
+<option value="Partner 2">Partner 2</option>
+</select>
+
+</div>
+
+
+<div class="card">
+
+<h3>🚘 Vehicle Count</h3>
+
+<div class="vehicle">
+<div>
+<b>Two Wheeler</b><br>
+<small>₹130</small>
+</div>
+
+<input
+type="number"
+id="twoWheeler"
+value="0"
+min="0"
+oninput="calculate()">
+
+<div class="amount" id="twoWheelerAmount">
+₹0
+</div>
+</div>
+
+
+<div class="vehicle">
+<div>
+<b>Tractor</b><br>
+<small>₹700</small>
+</div>
+
+<input
+type="number"
+id="tractor"
+value="0"
+min="0"
+oninput="calculate()">
+
+<div class="amount" id="tractorAmount">
+₹0
+</div>
+</div>
+
+
+<div class="vehicle">
+<div>
+<b>Car</b><br>
+<small>₹400</small>
+</div>
+
+<input
+type="number"
+id="car"
+value="0"
+min="0"
+oninput="calculate()">
+
+<div class="amount" id="carAmount">
+₹0
+</div>
+</div>
+
+
+<div class="vehicle">
+<div>
+<b>Big Car</b><br>
+<small>₹500</small>
+</div>
+
+<input
+type="number"
+id="bigCar"
+value="0"
+min="0"
+oninput="calculate()">
+
+<div class="amount" id="bigCarAmount">
+₹0
+</div>
+</div>
+
+
+<div class="vehicle">
+<div>
+<b>Tata Ace</b><br>
+<small>₹400</small>
+</div>
+
+<input
+type="number"
+id="tataAce"
+value="0"
+min="0"
+oninput="calculate()">
+
+<div class="amount" id="tataAceAmount">
+₹0
+</div>
+</div>
+
+
+<div class="vehicle">
+<div>
+<b>Big Load Vehicle</b><br>
+<small>₹500</small>
+</div>
+
+<input
+type="number"
+id="bigLoad"
+value="0"
+min="0"
+oninput="calculate()">
+
+<div class="amount" id="bigLoadAmount">
+₹0
+</div>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>💳 Payment</h3>
+
+<div class="grid2">
+
+<div>
+<label>Cash ₹</label>
+<input
+type="number"
+id="cash"
+value="0"
+min="0">
+</div>
+
+<div>
+<label>GPay ₹</label>
+<input
+type="number"
+id="gpay"
+value="0"
+min="0">
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>💸 Expense</h3>
+
+<label>Expense Details</label>
+
+<input
+type="text"
+id="expenseNote"
+placeholder="Shampoo / Salary / EB / Other">
+
+<label>Expense Amount ₹</label>
+
+<input
+type="number"
+id="expense"
+value="0"
+min="0"
+oninput="calculate()">
+
+</div>
+
+
+<div class="card">
+
+<h3>📊 Today's Summary</h3>
+
+<div class="summary">
+
+<div class="summary-box">
+Vehicles
+<b id="totalVehicles">0</b>
+</div>
+
+<div class="summary-box green">
+Income
+<b id="income">₹0</b>
+</div>
+
+<div class="summary-box red">
+Expense
+<b id="expenseTotal">₹0</b>
+</div>
+
+<div class="summary-box">
+Balance
+<b id="balance">₹0</b>
+</div>
+
+</div>
+
+<button id="saveBtn" onclick="saveEntry()">
+💾 SAVE ENTRY
+</button>
+
+<div class="status" id="saveStatus"></div>
+
+</div>
+
+</section>
+
+
+<!-- HISTORY -->
+
+<section id="history" class="hidden">
+
+<div class="card">
+
+<h3>📋 Entry History</h3>
+
+<button
+class="secondary"
+onclick="loadHistory()">
+↻ REFRESH
+</button>
+
+<div id="historyList">
+<div class="loader">
+Loading...
+</div>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- REPORT -->
+
+<section id="report" class="hidden">
+
+<div class="card">
+
+<h3>📊 Overall Report</h3>
+
+<button
+class="secondary"
+onclick="loadReport()">
+↻ REFRESH REPORT
+</button>
+
+<br><br>
+
+<div class="summary">
+
+<div class="summary-box">
+Vehicles
+<b id="reportVehicles">0</b>
+</div>
+
+<div class="summary-box green">
+Income
+<b id="reportIncome">₹0</b>
+</div>
+
+<div class="summary-box red">
+Expense
+<b id="reportExpense">₹0</b>
+</div>
+
+<div class="summary-box">
+Balance
+<b id="reportBalance">₹0</b>
+</div>
+
+<div class="summary-box">
+Cash
+<b id="reportCash">₹0</b>
+</div>
+
+<div class="summary-box">
+GPay
+<b id="reportGpay">₹0</b>
+</div>
+
+</div>
+
+<br>
+
+<h3>Vehicle Summary</h3>
+
+<div id="vehicleReport"></div>
+
+</div>
+
+</section>
+
+</div>
+
+
+<script>
+
+/* ==================================
+   GOOGLE SHEET WEB APP
+================================== */
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbyoHGN-yQQIaGiE8tgg6raQUXqzFeTf0v5nPbh1795232b8FWddTITALEogb99dYu7x/exec";
+
+
+/* ==================================
+   RATES
+================================== */
+
+const rates = {
+
+ twoWheeler:130,
+
+ tractor:700,
+
+ car:400,
+
+ bigCar:500,
+
+ tataAce:400,
+
+ bigLoad:500
+
+};
+
+
+/* ==================================
+   DATE
+================================== */
+
+const today =
+new Date();
+
+const localDate =
+today.getFullYear() + "-" +
+String(today.getMonth()+1).padStart(2,"0") + "-" +
+String(today.getDate()).padStart(2,"0");
+
+document.getElementById("date").value =
+localDate;
+
+
+/* ==================================
+   HELPERS
+================================== */
+
+function number(id){
+
+ return Number(
+  document.getElementById(id).value
+ ) || 0;
+
+}
+
+function money(value){
+
+ return "₹" +
+ Number(value || 0).toLocaleString("en-IN");
+
+}
+
+
+/* ==================================
+   CALCULATION
+================================== */
+
+function calculate(){
+
+ const twoWheeler =
+ number("twoWheeler");
+
+ const tractor =
+ number("tractor");
+
+ const car =
+ number("car");
+
+ const bigCar =
+ number("bigCar");
+
+ const tataAce =
+ number("tataAce");
+
+ const bigLoad =
+ number("bigLoad");
+
+
+ const amounts = {
+
+  twoWheeler:
+  twoWheeler * rates.twoWheeler,
+
+  tractor:
+  tractor * rates.tractor,
+
+  car:
+  car * rates.car,
+
+  bigCar:
+  bigCar * rates.bigCar,
+
+  tataAce:
+  tataAce * rates.tataAce,
+
+  bigLoad:
+  bigLoad * rates.bigLoad
+
+ };
+
+
+ document.getElementById(
+ "twoWheelerAmount"
+ ).innerText =
+ money(amounts.twoWheeler);
+
+
+ document.getElementById(
+ "tractorAmount"
+ ).innerText =
+ money(amounts.tractor);
+
+
+ document.getElementById(
+ "carAmount"
+ ).innerText =
+ money(amounts.car);
+
+
+ document.getElementById(
+ "bigCarAmount"
+ ).innerText =
+ money(amounts.bigCar);
+
+
+ document.getElementById(
+ "tataAceAmount"
+ ).innerText =
+ money(amounts.tataAce);
+
+
+ document.getElementById(
+ "bigLoadAmount"
+ ).innerText =
+ money(amounts.bigLoad);
+
+
+ const totalVehicles =
+ twoWheeler +
+ tractor +
+ car +
+ bigCar +
+ tataAce +
+ bigLoad;
+
+
+ const income =
+ amounts.twoWheeler +
+ amounts.tractor +
+ amounts.car +
+ amounts.bigCar +
+ amounts.tataAce +
+ amounts.bigLoad;
+
+
+ const expense =
+ number("expense");
+
+
+ document.getElementById(
+ "totalVehicles"
+ ).innerText =
+ totalVehicles;
+
+
+ document.getElementById(
+ "income"
+ ).innerText =
+ money(income);
+
+
+ document.getElementById(
+ "expenseTotal"
+ ).innerText =
+ money(expense);
+
+
+ document.getElementById(
+ "balance"
+ ).innerText =
+ money(income-expense);
+
+}
+
+
+/* ==================================
+   SAVE TO GOOGLE SHEET
+================================== */
+
+async function saveEntry(){
+
+ const status =
+ document.getElementById("saveStatus");
+
+ const btn =
+ document.getElementById("saveBtn");
+
+
+ const totalVehicles =
+ number("twoWheeler") +
+ number("tractor") +
+ number("car") +
+ number("bigCar") +
+ number("tataAce") +
+ number("bigLoad");
+
+
+ const expense =
+ number("expense");
+
+
+ if(totalVehicles === 0 && expense === 0){
+
+  alert(
+   "Vehicle count அல்லது Expense enter பண்ணவும்."
+  );
+
+  return;
+
+ }
+
+
+ const data = {
+
+  action:"saveEntry",
+
+  date:
+  document.getElementById("date").value,
+
+  partner:
+  document.getElementById("partner").value,
+
+  twoWheeler:
+  number("twoWheeler"),
+
+  tractor:
+  number("tractor"),
+
+  car:
+  number("car"),
+
+  bigCar:
+  number("bigCar"),
+
+  tataAce:
+  number("tataAce"),
+
+  bigLoad:
+  number("bigLoad"),
+
+  cash:
+  number("cash"),
+
+  gpay:
+  number("gpay"),
+
+  expenseNote:
+  document.getElementById(
+   "expenseNote"
+  ).value,
+
+  expense:
+  expense
+
+ };
+
+
+ btn.disabled=true;
+
+ status.innerText =
+ "Saving... தயவு செய்து காத்திருக்கவும்";
+
+
+ try{
+
+  const response =
+  await fetch(API_URL,{
+   method:"POST",
+
+   body:
+   JSON.stringify(data)
+  });
+
+
+  const result =
+  await response.json();
+
+
+  if(result.success){
+
+   status.innerText =
+   "✅ Entry saved successfully";
+
+   alert(
+    "Saved Successfully!\n\n" +
+    "Vehicles: " +
+    result.totalVehicles +
+    "\nIncome: " +
+    money(result.income) +
+    "\nExpense: " +
+    money(result.expense) +
+    "\nBalance: " +
+    money(result.balance)
+   );
+
+
+   resetForm();
+
+  }
+
+  else{
+
+   throw new Error(
+    result.message ||
+    "Save failed"
+   );
+
+  }
+
+ }
+
+ catch(error){
+
+  console.error(error);
+
+  status.innerText =
+  "❌ Save failed. Internet / connection check பண்ணவும்.";
+
+  alert(
+   "Save ஆகவில்லை.\n\n" +
+   error.message
+  );
+
+ }
+
+ finally{
+
+  btn.disabled=false;
+
+ }
+
+}
+
+
+/* ==================================
+   RESET AFTER SAVE
+================================== */
+
+function resetForm(){
+
+ [
+  "twoWheeler",
+  "tractor",
+  "car",
+  "bigCar",
+  "tataAce",
+  "bigLoad",
+  "cash",
+  "gpay",
+  "expense"
+ ]
+ .forEach(id=>{
+
+  document.getElementById(id).value=0;
+
+ });
+
+
+ document.getElementById(
+ "expenseNote"
+ ).value="";
+
+
+ calculate();
+
+}
+
+
+/* ==================================
+   GET DATA
+================================== */
+
+async function getData(){
+
+ const response =
+ await fetch(
+  API_URL +
+  "?action=getData&t=" +
+  Date.now()
+ );
+
+
+ const result =
+ await response.json();
+
+
+ if(!result.success){
+
+  throw new Error(
+   result.message ||
+   "Unable to load data"
+  );
+
+ }
+
+
+ return result.data || [];
+
+}
+
+
+/* ==================================
+   HISTORY
+================================== */
+
+async function loadHistory(){
+
+ const box =
+ document.getElementById(
+  "historyList"
+ );
+
+
+ box.innerHTML =
+ "<div class='loader'>Loading...</div>";
+
+
+ try{
+
+  const data =
+  await getData();
+
+
+  if(!data.length){
+
+   box.innerHTML =
+   "<p>No entries yet.</p>";
+
+   return;
+
+  }
+
+
+  box.innerHTML="";
+
+
+  [...data]
+  .reverse()
+  .forEach(e=>{
+
+
+   let vehicles="";
+
+
+   if(Number(e.twoWheeler)>0)
+
+    vehicles +=
+    `Two Wheeler: ${e.twoWheeler}<br>`;
+
+
+   if(Number(e.tractor)>0)
+
+    vehicles +=
+    `Tractor: ${e.tractor}<br>`;
+
+
+   if(Number(e.car)>0)
+
+    vehicles +=
+    `Car: ${e.car}<br>`;
+
+
+   if(Number(e.bigCar)>0)
+
+    vehicles +=
+    `Big Car: ${e.bigCar}<br>`;
+
+
+   if(Number(e.tataAce)>0)
+
+    vehicles +=
+    `Tata Ace: ${e.tataAce}<br>`;
+
+
+   if(Number(e.bigLoad)>0)
+
+    vehicles +=
+    `Big Load Vehicle: ${e.bigLoad}<br>`;
+
+
+   box.innerHTML += `
+
+   <div class="history-card">
+
+    <div class="history-date">
+
+     ${formatDate(e.date)}
+
+     <span class="badge">
+      ${e.partner || ""}
+     </span>
+
+    </div>
+
+
+    <div class="history-detail">
+
+     ${vehicles}
+
+     <b>Total Vehicles:</b>
+     ${e.totalVehicles}<br>
+
+     <b>Income:</b>
+     ${money(e.income)}<br>
+
+     <b>Cash:</b>
+     ${money(e.cash)}
+     &nbsp;
+
+     <b>GPay:</b>
+     ${money(e.gpay)}
+     <br>
+
+     <b>Expense:</b>
+     ${money(e.expense)}
+
+     ${
+      e.expenseNote
+      ?
+      " (" +
+      e.expenseNote +
+      ")"
+      :
+      ""
+     }
+
+     <br>
+
+     <b>Balance:</b>
+     ${money(e.balance)}
+
+    </div>
+
+   </div>
+
+   `;
+
+  });
+
+ }
+
+ catch(error){
+
+  console.error(error);
+
+  box.innerHTML =
+  "<p>❌ Data load ஆகவில்லை.</p>";
+
+ }
+
+}
+
+
+/* ==================================
+   REPORT
+================================== */
+
+async function loadReport(){
+
+ try{
+
+  const data =
+  await getData();
+
+
+  let vehicles=0;
+
+  let income=0;
+
+  let expense=0;
+
+  let cash=0;
+
+  let gpay=0;
+
+
+  const count = {
+
+   twoWheeler:0,
+
+   tractor:0,
+
+   car:0,
+
+   bigCar:0,
+
+   tataAce:0,
+
+   bigLoad:0
+
+  };
+
+
+  data.forEach(e=>{
+
+   vehicles +=
+   Number(e.totalVehicles)||0;
+
+   income +=
+   Number(e.income)||0;
+
+   expense +=
+   Number(e.expense)||0;
+
+   cash +=
+   Number(e.cash)||0;
+
+   gpay +=
+   Number(e.gpay)||0;
+
+
+   count.twoWheeler +=
+   Number(e.twoWheeler)||0;
+
+   count.tractor +=
+   Number(e.tractor)||0;
+
+   count.car +=
+   Number(e.car)||0;
+
+   count.bigCar +=
+   Number(e.bigCar)||0;
+
+   count.tataAce +=
+   Number(e.tataAce)||0;
+
+   count.bigLoad +=
+   Number(e.bigLoad)||0;
+
+  });
+
+
+  document.getElementById(
+  "reportVehicles"
+  ).innerText =
+  vehicles;
+
+
+  document.getElementById(
+  "reportIncome"
+  ).innerText =
+  money(income);
+
+
+  document.getElementById(
+  "reportExpense"
+  ).innerText =
+  money(expense);
+
+
+  document.getElementById(
+  "reportBalance"
+  ).innerText =
+  money(income-expense);
+
+
+  document.getElementById(
+  "reportCash"
+  ).innerText =
+  money(cash);
+
+
+  document.getElementById(
+  "reportGpay"
+  ).innerText =
+  money(gpay);
+
+
+  document.getElementById(
+  "vehicleReport"
+  ).innerHTML = `
+
+  <table>
+
+   <tr>
+    <th>Vehicle</th>
+    <th>Count</th>
+    <th>Rate</th>
+    <th>Amount</th>
+   </tr>
+
+   <tr>
+    <td>Two Wheeler</td>
+    <td>${count.twoWheeler}</td>
+    <td>₹130</td>
+    <td>${money(
+     count.twoWheeler*130
+    )}</td>
+   </tr>
+
+   <tr>
+    <td>Tractor</td>
+    <td>${count.tractor}</td>
+    <td>₹700</td>
+    <td>${money(
+     count.tractor*700
+    )}</td>
+   </tr>
+
+   <tr>
+    <td>Car</td>
+    <td>${count.car}</td>
+    <td>₹400</td>
+    <td>${money(
+     count.car*400
+    )}</td>
+   </tr>
+
+   <tr>
+    <td>Big Car</td>
+    <td>${count.bigCar}</td>
+    <td>₹500</td>
+    <td>${money(
+     count.bigCar*500
+    )}</td>
+   </tr>
+
+   <tr>
+    <td>Tata Ace</td>
+    <td>${count.tataAce}</td>
+    <td>₹400</td>
+    <td>${money(
+     count.tataAce*400
+    )}</td>
+   </tr>
+
+   <tr>
+    <td>Big Load Vehicle</td>
+    <td>${count.bigLoad}</td>
+    <td>₹500</td>
+    <td>${money(
+     count.bigLoad*500
+    )}</td>
+   </tr>
+
+  </table>
+
+  `;
+
+ }
+
+ catch(error){
+
+  console.error(error);
+
+  alert(
+   "Report load ஆகவில்லை."
+  );
+
+ }
+
+}
+
+
+/* ==================================
+   DATE FORMAT
+================================== */
+
+function formatDate(value){
+
+ if(!value) return "";
+
+
+ try{
+
+  const date =
+  new Date(value);
+
+
+  if(isNaN(date))
+   return value;
+
+
+  return date.toLocaleDateString(
+   "en-IN",
+   {
+    day:"2-digit",
+    month:"2-digit",
+    year:"numeric"
+   }
+  );
+
+ }
+
+ catch{
+
+  return value;
+
+ }
+
+}
+
+
+/* ==================================
+   PAGE NAVIGATION
+================================== */
+
+function showPage(page){
+
+ [
+  "today",
+  "history",
+  "report"
+ ]
+ .forEach(id=>{
+
+  document
+  .getElementById(id)
+  .classList.add("hidden");
+
+ });
+
+
+ document
+ .getElementById(page)
+ .classList.remove("hidden");
+
+
+ if(page==="history"){
+
+  loadHistory();
+
+ }
+
+
+ if(page==="report"){
+
+  loadReport();
+
+ }
+
+}
+
+
+calculate();
+
+</script>
+
+</body>
+</html>
