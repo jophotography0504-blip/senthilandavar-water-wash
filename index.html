@@ -244,7 +244,8 @@ th{
 
 <header>
 <h1>💦 SENTHILANDAVAR WATER WASH</h1>
-<p>Daily Collection • Expense • Vehicle Report</p>
+<p>THANJAVUR TO MANNARKUDI MAIN ROAD, KAIKKATTI.</p>
+<p>📞 9843785651 | 9025631519</p>
 </header>
 
 <div class="container">
@@ -299,6 +300,33 @@ oninput="calculate()">
 </div>
 </div>
 
+
+<div class="vehicle">
+<div>
+<b>Mechanic Bike</b><br>
+<small>₹100</small>
+</div>
+
+<input type="number" id="mechanicBike" value="0" min="0" oninput="calculate()">
+<div class="amount" id="mechanicBikeAmount">₹0</div>
+</div>
+
+<div class="card" style="background:#f8fafc;margin:10px 0 14px;padding:12px;">
+<h3 style="font-size:15px;margin-bottom:8px;">➕ OTHERS (Manual)</h3>
+<div class="grid2">
+<div>
+<label>Vehicle Name</label>
+<input type="text" id="otherVehicleName" placeholder="Example: JCB">
+</div>
+<div>
+<label>Count</label>
+<input type="number" id="otherCount" value="0" min="0" oninput="calculate()">
+</div>
+</div>
+<label>Rate ₹</label>
+<input type="number" id="otherRate" value="0" min="0" oninput="calculate()">
+<div style="margin-top:8px;text-align:right;font-weight:bold;">Amount: <span id="otherAmount">₹0</span></div>
+</div>
 
 <div class="vehicle">
 <div>
@@ -594,6 +622,8 @@ const rates = {
 
  twoWheeler:130,
 
+ mechanicBike:100,
+
  tractor:700,
 
  car:400,
@@ -652,6 +682,9 @@ function calculate(){
  const twoWheeler =
  number("twoWheeler");
 
+ const mechanicBike =
+ number("mechanicBike");
+
  const tractor =
  number("tractor");
 
@@ -667,11 +700,17 @@ function calculate(){
  const bigLoad =
  number("bigLoad");
 
+ const otherCount = number("otherCount");
+ const otherRate = number("otherRate");
+
 
  const amounts = {
 
   twoWheeler:
   twoWheeler * rates.twoWheeler,
+
+  mechanicBike:
+  mechanicBike * rates.mechanicBike,
 
   tractor:
   tractor * rates.tractor,
@@ -686,7 +725,10 @@ function calculate(){
   tataAce * rates.tataAce,
 
   bigLoad:
-  bigLoad * rates.bigLoad
+  bigLoad * rates.bigLoad,
+
+  other:
+  otherCount * otherRate
 
  };
 
@@ -696,6 +738,11 @@ function calculate(){
  ).innerText =
  money(amounts.twoWheeler);
 
+
+ document.getElementById(
+ "mechanicBikeAmount"
+ ).innerText =
+ money(amounts.mechanicBike);
 
  document.getElementById(
  "tractorAmount"
@@ -726,23 +773,29 @@ function calculate(){
  ).innerText =
  money(amounts.bigLoad);
 
+ document.getElementById("otherAmount").innerText = money(amounts.other);
+
 
  const totalVehicles =
  twoWheeler +
+ mechanicBike +
  tractor +
  car +
  bigCar +
  tataAce +
- bigLoad;
+ bigLoad +
+ otherCount;
 
 
  const income =
  amounts.twoWheeler +
+ amounts.mechanicBike +
  amounts.tractor +
  amounts.car +
  amounts.bigCar +
  amounts.tataAce +
- amounts.bigLoad;
+ amounts.bigLoad +
+ amounts.other;
 
 
  const expense =
@@ -790,11 +843,13 @@ async function saveEntry(){
 
  const totalVehicles =
  number("twoWheeler") +
+ number("mechanicBike") +
  number("tractor") +
  number("car") +
  number("bigCar") +
  number("tataAce") +
- number("bigLoad");
+ number("bigLoad") +
+ number("otherCount");
 
 
  const expense =
@@ -825,6 +880,9 @@ async function saveEntry(){
   twoWheeler:
   number("twoWheeler"),
 
+  mechanicBike:
+  number("mechanicBike"),
+
   tractor:
   number("tractor"),
 
@@ -839,6 +897,15 @@ async function saveEntry(){
 
   bigLoad:
   number("bigLoad"),
+
+  otherVehicleName:
+  document.getElementById("otherVehicleName").value.trim(),
+
+  otherCount:
+  number("otherCount"),
+
+  otherRate:
+  number("otherRate"),
 
   cash:
   number("cash"),
@@ -942,11 +1009,14 @@ function resetForm(){
 
  [
   "twoWheeler",
+  "mechanicBike",
   "tractor",
   "car",
   "bigCar",
   "tataAce",
   "bigLoad",
+  "otherCount",
+  "otherRate",
   "cash",
   "gpay",
   "expense"
@@ -961,6 +1031,8 @@ function resetForm(){
  document.getElementById(
  "expenseNote"
  ).value="";
+
+ document.getElementById("otherVehicleName").value="";
 
 
  calculate();
@@ -1050,6 +1122,10 @@ async function loadHistory(){
     `Two Wheeler: ${e.twoWheeler}<br>`;
 
 
+   if(Number(e.mechanicBike)>0)
+    vehicles +=
+    `Mechanic Bike: ${e.mechanicBike}<br>`;
+
    if(Number(e.tractor)>0)
 
     vehicles +=
@@ -1079,6 +1155,10 @@ async function loadHistory(){
     vehicles +=
     `Big Load Vehicle: ${e.bigLoad}<br>`;
 
+
+   if(Number(e.otherCount)>0)
+    vehicles +=
+    `${e.otherVehicleName || "Others"}: ${e.otherCount} × ${money(e.otherRate)} = ${money((Number(e.otherCount)||0)*(Number(e.otherRate)||0))}<br>`;
 
    box.innerHTML += `
 
@@ -1180,6 +1260,8 @@ async function loadReport(){
 
    twoWheeler:0,
 
+   mechanicBike:0,
+
    tractor:0,
 
    car:0,
@@ -1188,7 +1270,10 @@ async function loadReport(){
 
    tataAce:0,
 
-   bigLoad:0
+   bigLoad:0,
+
+   otherCount:0,
+   otherAmount:0
 
   };
 
@@ -1214,6 +1299,9 @@ async function loadReport(){
    count.twoWheeler +=
    Number(e.twoWheeler)||0;
 
+   count.mechanicBike +=
+   Number(e.mechanicBike)||0;
+
    count.tractor +=
    Number(e.tractor)||0;
 
@@ -1228,6 +1316,9 @@ async function loadReport(){
 
    count.bigLoad +=
    Number(e.bigLoad)||0;
+
+   count.otherCount += Number(e.otherCount)||0;
+   count.otherAmount += (Number(e.otherCount)||0) * (Number(e.otherRate)||0);
 
   });
 
@@ -1291,6 +1382,13 @@ async function loadReport(){
    </tr>
 
    <tr>
+    <td>Mechanic Bike</td>
+    <td>${count.mechanicBike}</td>
+    <td>₹100</td>
+    <td>${money(count.mechanicBike*100)}</td>
+   </tr>
+
+   <tr>
     <td>Tractor</td>
     <td>${count.tractor}</td>
     <td>₹700</td>
@@ -1333,6 +1431,13 @@ async function loadReport(){
     <td>${money(
      count.bigLoad*500
     )}</td>
+   </tr>
+
+   <tr>
+    <td>Others</td>
+    <td>${count.otherCount}</td>
+    <td>Manual</td>
+    <td>${money(count.otherAmount)}</td>
    </tr>
 
   </table>
